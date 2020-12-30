@@ -114,7 +114,7 @@ def breadthFirstSearch(problem):
     "*** YOUR CODE HERE ***"
     # util.raiseNotDefined()
     queue = util.Queue()
-    item = (problem.getStartState(), problem.path if problem.path != None else [], 0)
+    item = (problem.getStartState(), [], 0)
     queue.push(item)
     visited = []
     while not queue.isEmpty():
@@ -137,7 +137,7 @@ def uniformCostSearch(problem):
     pQueue = util.PriorityQueue()
     item = (problem.getStartState(), [], 0)
     pQueue.push(item, item[2])
-    visited = []
+    visited = set()
     while not pQueue.isEmpty():
         node = pQueue.pop()
         if problem.isGoalState(node[0]):
@@ -147,7 +147,7 @@ def uniformCostSearch(problem):
                 for nod in problem.getSuccessors(node[0]):
                     if nod[0] not in visited:
                         pQueue.push((nod[0], node[1] + [nod[1]], node[2] + nod[2]), node[2] + nod[2])
-                visited.append(node[0])
+                visited.add(node[0])
 
 def nullHeuristic(state, problem=None):
     """
@@ -162,7 +162,7 @@ def aStarSearch(problem, heuristic=nullHeuristic):
     pQueue = util.PriorityQueue()
     item = (problem.getStartState(), [], 0) #(state, [steps to get to this state], cost from start to this state)
     pQueue.push(item, item[2])  #(item, cost from start to this + heuristic to nearest goal)
-    visited = set()
+    visited = []
     while not pQueue.isEmpty():
         node = pQueue.pop()
         if problem.isGoalState(node[0]):
@@ -173,7 +173,7 @@ def aStarSearch(problem, heuristic=nullHeuristic):
                     if nod[0] not in visited:
                         pQueue.push((nod[0], node[1] + [nod[1]], 
                             node[2] + nod[2]), node[2] + nod[2] + heuristic(nod[0], problem))
-                visited.add(node[0])
+                visited.append(node[0])
 
 
 
