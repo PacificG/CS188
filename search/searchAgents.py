@@ -366,11 +366,13 @@ def cornersHeuristic(state, problem):
     shortest path from the state to a goal of the problem; i.e.  it should be
     admissible (as well as consistent).
     """
+
+
     corners = problem.corners # These are the corner coordinates
     walls = problem.walls # These are the walls of the maze, as a Grid (game.py)
-    manhattan = lambda x: abs(x[0] - state[0][0]) + abs(x[1] - state[0][1])
+    manhattan = lambda x: abs(x[0] - state[0][0]) + abs(x[1] - state[0][1])    
     lst = list(problem.cornersLeft)
-    lst.sort(key=manhattan)
+    lst.sort(key=manhattan, reverse=True)
     problem.cornersLeft = tuple(lst)
     if state in problem.corners:
         return 0
@@ -470,7 +472,11 @@ def foodHeuristic(state, problem):
     """
     position, foodGrid = state
     "*** YOUR CODE HERE ***"
-    return 0
+    foods = foodGrid.asList()
+    manhattan = lambda x: abs(x[0] - position[0]) + abs(x[1] - position[1])
+    foods.sort(key=manhattan, reverse=True)
+
+    return manhattan(foods[0]) if len(foods) > 0 else 0
 
 class ClosestDotSearchAgent(SearchAgent):
     "Search for all food using a sequence of searches"
