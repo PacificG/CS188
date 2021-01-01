@@ -472,11 +472,26 @@ def foodHeuristic(state, problem):
     """
     position, foodGrid = state
     "*** YOUR CODE HERE ***"
+    #my heuristic got 9551 nodes
     foods = foodGrid.asList()
     manhattan = lambda x: abs(x[0] - position[0]) + abs(x[1] - position[1])
-    foods.sort(key=manhattan, reverse=True)
+    foods.sort(key=manhattan)
+    gameState = problem.startingGameState
+    return mazeDistance(foods[0], position, gameState) if len(foods) > 0 else 0
 
-    return manhattan(foods[0]) if len(foods) > 0 else 0
+
+    """ Heuristic found on stackoverflow"""
+    # foods.sort(key=manhattan, reverse=True)
+
+    # heuristic = lambda x: mazeDistance(x, position, gameState) + len(foods) - len([food for food in foods if food[0]==position[0] 
+    #     or food[1]== position[1] or food[1] == foods[0][1] or food[0] == foods[0][0]])
+
+    
+
+    # return heuristic(foods[0]) if len(foods) > 0 else 0
+
+
+
 
 class ClosestDotSearchAgent(SearchAgent):
     "Search for all food using a sequence of searches"
@@ -507,6 +522,7 @@ class ClosestDotSearchAgent(SearchAgent):
         problem = AnyFoodSearchProblem(gameState)
 
         "*** YOUR CODE HERE ***"
+        
         util.raiseNotDefined()
 
 class AnyFoodSearchProblem(PositionSearchProblem):
@@ -541,7 +557,7 @@ class AnyFoodSearchProblem(PositionSearchProblem):
         complete the problem definition.
         """
         x,y = state
-
+        foodList = self.food.asList()
         "*** YOUR CODE HERE ***"
         util.raiseNotDefined()
 
