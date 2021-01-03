@@ -517,13 +517,14 @@ class ClosestDotSearchAgent(SearchAgent):
         """
         # Here are some useful elements of the startState
         startPosition = gameState.getPacmanPosition()
-        food = gameState.getFood()
+        food = gameState.getFood().asList()
         walls = gameState.getWalls()
         problem = AnyFoodSearchProblem(gameState)
 
         "*** YOUR CODE HERE ***"
-        
-        util.raiseNotDefined()
+        food.sort(key=lambda x: mazeDistance(x, startPosition, gameState))
+        return search.bfs(PositionSearchProblem(gameState, goal=food[0], start=startPosition, warn=False))
+        # return search.aStarSearch(problem, heuristic)
 
 class AnyFoodSearchProblem(PositionSearchProblem):
     """
@@ -544,7 +545,7 @@ class AnyFoodSearchProblem(PositionSearchProblem):
         "Stores information from the gameState.  You don't need to change this."
         # Store the food for later reference
         self.food = gameState.getFood()
-
+        self.gameState = gameState
         # Store info for the PositionSearchProblem (no need to change this)
         self.walls = gameState.getWalls()
         self.startState = gameState.getPacmanPosition()
@@ -559,7 +560,7 @@ class AnyFoodSearchProblem(PositionSearchProblem):
         x,y = state
         foodList = self.food.asList()
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        return len(foodList) == 0
 
 def mazeDistance(point1, point2, gameState):
     """
